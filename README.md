@@ -66,6 +66,10 @@ Bench Runner provides the **timing infrastructure** for γ + η = C conservation
 
 See [ARCHITECTURE.md](https://github.com/SuperInstance/SuperInstance/blob/main/ARCHITECTURE.md).
 
+**Warm-up analysis:** The number of warm-up iterations needed depends on the benchmark's memory footprint. A benchmark touching 100 KB of data requires only ~10 warm-up iterations to fill L1/L2 cache (~256 KB typical). A benchmark touching 10 MB may need 50+ iterations as the working set spills to L3 cache (~8 MB). The default warm-up count should be `max(10, data_footprint / cache_size)`.
+
+**Statistical rigor:** Following Kalibera & Jones (2013), the runner supports multiple replication levels: (1) within-run iterations (measure steady-state), (2) between-run replications (measure run-to-run variance), and (3) between-build replications (measure compiler/environment variance). Only all three levels together produce statistically valid benchmark comparisons.
+
 ## References
 
 1. Kalibera, T. & Jones, R. (2013). "Rigorous Benchmarking in Reasonable Time." *ISSTA*.
